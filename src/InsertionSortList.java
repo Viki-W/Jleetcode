@@ -14,35 +14,24 @@ public class InsertionSortList {
         if(head == null || head.next == null){
             return head;
         }
-        ListNode h = head; //new head
-        head = head.next;  //old head
-        ListNode n = head; //old cursor
-        ListNode t = h;  //new cursor
-        h.next = null;
+        ListNode res = new ListNode(Integer.MIN_VALUE); //new head
+		ListNode pre = res;    
+        ListNode cur = null;   //the last sorted node
+		ListNode next = null;  //the first unsorted node
    
         while(head != null){
-            n = head.next;
-            if(head.val <= h.val){
-                head.next = h;
-                h = head;
-            }else{
-                t = h;
-                while(t.next != null){
-                    if(head.val <= t.next.val){
-                        head.next = t.next;
-                        t.next = head;
-                        break;
-                    }else{
-                        t = t.next;
-                    }
-                }
-                if(t.next == null){
-                    t.next = head;
-                    head.next = null;
-                }
-            }
-            head = n;
+            next = head;
+			head = head.next;
+			next.next = null; //isolate the unsorted node
+			pre = res;
+			cur = pre.next;
+			while(cur != null && cur.val < next.val){
+				cur = cur.next;
+				pre = pre.next;
+			}
+			pre.next = next;
+			next.next = cur;
          }
-        return h;
+        return res.next;
     }
 }
